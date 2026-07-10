@@ -1,3 +1,23 @@
-# cargaSaldo
-npm error invalid json response body at https://block.opendns.com/swg?server=swg-nginx-proxy-https-98f74be7c031.signginx.sao1&v=eyJhbGciOiAiSFM1MTIiLCAia2lkIjogIjE1NjM1NTk3OTYifQ.eyJidHlwZSI6ICIiLCAib3JnIjogMjYwMDc2NiwgIm9pZCI6IDY3NjM2MjA1MywgImJpZCI6IDE1MTgwNzkyLCAicHJmIjogNTc5MTgwOCwgInQiOiAiODAwMTgwMDAwMDAwMDAwMDAwMDA4MDAyMUYwMDAwMDAwMDAyMDAwMDAwIiwgImJjIjogIjgwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwIiwgInVybCI6ICJodHRwczovL3JlZ2lzdHJ5Lm5wbWpzLm9yZy9qc29ud2VidG9rZW4iLCAiZnRjIjogIiIsICJmbmFtZXMiOiAiIiwgImJwaWQiOiAwLCAicnVsZWlkIjogMTE2ODM5NH0.1uc3nhA3Fnn9t3MHhCj-u520OyQu4wk4652sMPb3U2jojx1s4z2zc8hdPAadPOPyf68MarC5JY50RbKdxLtgEg reason: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
-npm error A complete log of this run can be found in: C:\Users\amanriq7\AppData\Local\npm-cache\_logs\2026-07-10T14_59_51_222Z-debug-0.log
+C:\Users\amanriq7\Documents>node CargaSaldo.js
+node:internal/modules/cjs/loader:1520
+  throw err;
+  ^
+
+Error: Cannot find module 'jsonwebtoken'
+Require stack:
+- C:\Users\amanriq7\Documents\CargaSaldo.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1517:15)
+    at wrapResolveFilename (node:internal/modules/cjs/loader:1071:27)
+    at defaultResolveImplForCJSLoading (node:internal/modules/cjs/loader:1095:10)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1122:12)
+    at Module._load (node:internal/modules/cjs/loader:1294:5)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+    at Module.require (node:internal/modules/cjs/loader:1617:12)
+    at require (node:internal/modules/helpers:153:16)
+    at Object.<anonymous> (C:\Users\amanriq7\Documents\CargaSaldo.js:1:13)
+    at Module._compile (node:internal/modules/cjs/loader:1871:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ 'C:\\Users\\amanriq7\\Documents\\CargaSaldo.js' ]
+}
+
+Node.js v24.18.0
