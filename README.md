@@ -1,6 +1,3 @@
 # cargaSaldo
-C:\Users\amanriq7\Documents>npm i jsonwebtoken
-npm error code UNABLE_TO_GET_ISSUER_CERT_LOCALLY
-npm error errno UNABLE_TO_GET_ISSUER_CERT_LOCALLY
-npm error request to https://registry.npmjs.org/jsonwebtoken failed, reason: unable to get local issuer certificate
-npm error A complete log of this run can be found in: C:\Users\amanriq7\AppData\Local\npm-cache\_logs\2026-07-10T14_12_47_275Z-debug-0.log
+npm error invalid json response body at https://block.opendns.com/swg?server=swg-nginx-proxy-https-98f74be7c031.signginx.sao1&v=eyJhbGciOiAiSFM1MTIiLCAia2lkIjogIjE1NjM1NTk3OTYifQ.eyJidHlwZSI6ICIiLCAib3JnIjogMjYwMDc2NiwgIm9pZCI6IDY3NjM2MjA1MywgImJpZCI6IDE1MTgwNzkyLCAicHJmIjogNTc5MTgwOCwgInQiOiAiODAwMTgwMDAwMDAwMDAwMDAwMDA4MDAyMUYwMDAwMDAwMDAyMDAwMDAwIiwgImJjIjogIjgwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwIiwgInVybCI6ICJodHRwczovL3JlZ2lzdHJ5Lm5wbWpzLm9yZy9qc29ud2VidG9rZW4iLCAiZnRjIjogIiIsICJmbmFtZXMiOiAiIiwgImJwaWQiOiAwLCAicnVsZWlkIjogMTE2ODM5NH0.1uc3nhA3Fnn9t3MHhCj-u520OyQu4wk4652sMPb3U2jojx1s4z2zc8hdPAadPOPyf68MarC5JY50RbKdxLtgEg reason: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+npm error A complete log of this run can be found in: C:\Users\amanriq7\AppData\Local\npm-cache\_logs\2026-07-10T14_59_51_222Z-debug-0.log
