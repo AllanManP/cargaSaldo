@@ -57,3 +57,33 @@ script post:
                   pm.environment.set("refreshToken", ''+jsonData.payload.refreshToken);
                  pm.expect(pm.response.code).to.be.oneOf([200, 201]);
               });
+
+-----
+
+curl --location 'https://{{host_api}}/api/v1/withdrawal-deposit-api/deposit' \
+-header 'Authorization: Bearer {{accessToken}}'
+--header 'canal: SuperAPP_IN' \
+--header 'nombreFuncionalidad: Abono QR Super App' \
+--header 'codigoFuncionalidad: PQR15' \
+--header 'etapaCanal: DEPOSITO' \
+--header 'ipCliente: 192.168.1.87' \
+--header 'idDispositivo: 9087ce6f-9fa7-49d2-84d9-1becfd936475' \
+--header 'codigoSesion: 352fc58b-97c8-43ad-b7ce-59a7ae12b607' \
+--header 'Content-Type: application/json' \
+--data '{
+    "idTransaction": "{{transactionID}}",
+    "mambuAccountNumber": "{{mambuAccountNumber}}",
+    "mainframeAccountNumber": "{{mainframeAccountNumber}}",
+    "accountType": "CTV",
+    "clientRUT": {{clientRut}},
+    "clientDV": "{{clientDv}}",
+    "amount": 1000000,
+    "shortDescription": "DEPOSITO PRUEBA",
+    "mediumDescription": "DEPOSITO PRUEBA",
+    "longDescription": "DEPOSITO PRUEBA {{time}} {{date}} {{transactionID}}",
+    "currencyCode": "CLP",
+    "accountingDate": "{{accountDate}}",
+    "correlative": "{{correlative}}",
+    "clientName": "Cliente prueba",
+    "conventionCode": "1"
+}'
