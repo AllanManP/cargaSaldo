@@ -129,3 +129,11 @@ pm.environment.set("accountDate",fechaContable);
 pm.environment.set("time",hora);
 pm.environment.set("date",fechaFormateada);
 }
+
+
+
+Cuenta Mambu:
+00247772073126
+ 
+Cuenta Mainframe:
+35271047086
