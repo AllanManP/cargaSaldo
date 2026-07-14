@@ -1,7 +1,7 @@
 Bearer token: 823e4567-e89b-12d3-a456-426614174000
 
 curl --location 'https://cloud-suc-interno-qa.banco.bestado.cl/api/v1/tokeninterno-api/generaToken' \
---header 'rutcliente: {{rut}}' \
+--header 'rutcliente: 190058107' \
 --header 'etapa: Obtener Metodos Autorizacion' \
 --header 'xTrackID: e2e0dce2-359a-4946-b61d-d8f9824984a3' \
 --header 'ipCliente: 181.226.61.157' \
@@ -16,13 +16,17 @@ curl --location 'https://cloud-suc-interno-qa.banco.bestado.cl/api/v1/tokeninter
 --header 'id: de7ba310-f5e3-11ee-99e3-27e4ec8f78b3' \
 --header 'canal: 09' \
 --header 'Content-Type: application/json' \
---data '{"rutToken":"{{rut}}"}'
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwicnV0Q29uc3VsdGEiOiIxOTAwNTgxMDciLCJpYXQiOjk1MTYyMzkwMjIsImNvZGlnb3Nlc2lvbiI6IjJjOWJkOWE4LWNiZTktNGY4NS05YjEzLWYxYTNjYWJhMzViNSIsImV4cCI6OTUxNjIzOTAyMn0.2fcSx8pcTUhHyz6f6w7p4F3jVIASODktPmJ1W8Gf8zE' \
+--header 'Cookie: _csrf=Gz1s_be-RXx99zNFkrXDHroV' \
+--data '{
+    "rutToken": "190058107"
+}'
 
 
 ---
 
 curl --location 'https://cloud-suc-interno-qa.banco.bestado.cl/api/v1/replicaclientes-api/resumen-clientes' \
---header 'rutPersonaNatural: {{rut}}' \
+--header 'rutPersonaNatural: 190058107' \
 --header 'etapa: Obtener Metodos Autorizacion' \
 --header 'xTrackID: e2e0dce2-359a-4946-b61d-d8f9824984a3' \
 --header 'ipCliente: 181.226.61.157' \
@@ -38,7 +42,21 @@ curl --location 'https://cloud-suc-interno-qa.banco.bestado.cl/api/v1/replicacli
 --header 'canal: 09' \
 --header 'sinproductos: false' \
 --header 'Content-Type: application/json' \
---data '{"rutcliente":"{{rut}}"}'
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJydXRDb25zdWx0YSI6IjE5MDA1ODEwNyIsImNvZGlnb3Nlc2lvbiI6IjJjOWJkOWE4LWNiZTktNGY4NS05YjEzLWYxYTNjYWJhMzViNSIsImlhdCI6MTc4NDA0Mzc2MSwiZXhwIjoxNzg0MDQ3OTYxfQ.GD8PeAQjdY7Hvi7wVzL9vj9Whygzat-R8yblqse66ew' \
+--header 'Cookie: _csrf=Gz1s_be-RXx99zNFkrXDHroV' \
+--data '{
+    "rutcliente": "190058107"
+}'
+
+
+pre request:
+const clientRut = pm.environment.get("clientRut");
+const clientDv = pm.environment.get("clientDv");
+
+pm.environment.set(
+    "rut",
+    `${clientRut}${clientDv}`
+);
 
 -----
 
