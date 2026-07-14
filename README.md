@@ -87,3 +87,44 @@ curl --location 'https://{{host_api}}/api/v1/withdrawal-deposit-api/deposit' \
     "clientName": "Cliente prueba",
     "conventionCode": "1"
 }'
+
+
+console.clear();
+const calculaFechaContable = (fecha) => {
+    let fechaContable = new Date(fecha);
+    let opciones = { timeZone: 'America/Santiago', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+    let hora = fechaContable.toLocaleTimeString('es-CL', opciones);
+    
+    if(hora >= '14:00:00'){
+        fechaContable = new Date(fechaContable.setDate(fechaContable.getDate()+1))
+    }
+    while (fechaContable.getDay() === 6 || fechaContable.getDay() === 0) {
+        fechaContable = new Date(fechaContable.setDate(fechaContable.getDate()+1))
+    }
+    return fechaContable.toISOString().split('T')[0];
+}
+
+let correlative = pm.environment.get("correlative");
+console.log(correlative)
+if(!correlative || isNaN(correlative)){
+    correlative= 9700000
+}else{
+    correlative=parseInt(correlative,10);
+}
+let newCorrelative = correlative+1;
+let fechaActual = new Date();
+let fechaFormateada = fechaActual.toISOString().split('T')[0];
+let opciones = { timeZone: 'America/Santiago', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+let hora = fechaActual.toLocaleTimeString('es-CL', opciones);
+
+console.log(`valor de la fecha: ${fechaFormateada}`);   
+console.log(`valor de la hora: ${hora}`); 
+console.log(`nuevo valor correlativo: ${pm.environment.get("correlative")}`);
+console.log(`nuevo valor correlativo: ${pm.environment.get("transactionID")}`);
+let fechaContable = calculaFechaContable(fechaActual);
+
+pm.environment.set("correlative", newCorrelative);
+pm.environment.set("transactionID", `1500032907200${newCorrelative}`);
+pm.environment.set("accountDate",fechaContable);
+pm.environment.set("time",hora);
+pm.environment.set("date",fechaFormateada);
