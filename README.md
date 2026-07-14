@@ -88,7 +88,7 @@ curl --location 'https://{{host_api}}/api/v1/withdrawal-deposit-api/deposit' \
     "conventionCode": "1"
 }'
 
-
+{
 console.clear();
 const calculaFechaContable = (fecha) => {
     let fechaContable = new Date(fecha);
@@ -128,3 +128,4 @@ pm.environment.set("transactionID", `1500032907200${newCorrelative}`);
 pm.environment.set("accountDate",fechaContable);
 pm.environment.set("time",hora);
 pm.environment.set("date",fechaFormateada);
+}
