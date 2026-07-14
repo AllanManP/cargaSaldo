@@ -1,3 +1,5 @@
+Bearer token: 823e4567-e89b-12d3-a456-426614174000
+
 curl --location 'https://cloud-suc-interno-qa.banco.bestado.cl/api/v1/tokeninterno-api/generaToken' \
 --header 'rutcliente: {{rut}}' \
 --header 'etapa: Obtener Metodos Autorizacion' \
