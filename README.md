@@ -43,3 +43,17 @@ curl --location 'https://cloud-suc-interno-qa.banco.bestado.cl/api/v1/replicacli
 -----
 
 
+curl --location 'https://api.integracioncore.test.amazon.bestado.cl/api/v1/access-keys-api/auth' \
+--header 'canal: 15' \
+--header 'access-api-key: ff92d31b-5023-4099-91d4-1a9414c14f6b' \
+--header 'iss: SUPERAPP' \
+--header 'aud: aws-apis-core' \
+--header 'sub: transaction'
+
+script post:
+      pm.test("GET JWT OK", function () {
+            var jsonData = pm.response.json();
+                  pm.environment.set("accessToken", ''+jsonData.payload.accessToken);
+                  pm.environment.set("refreshToken", ''+jsonData.payload.refreshToken);
+                 pm.expect(pm.response.code).to.be.oneOf([200, 201]);
+              });
