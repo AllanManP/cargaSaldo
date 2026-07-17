@@ -361,3 +361,40 @@ main(listaruts);
 // o
 //set NODE_TLS_REJECT_UNAUTHORIZED=0
 //node app.js
+/*
+{
+  code: 200,
+  message: 'balances success',
+  businessMessage: 'balances success',
+  typeResponse: 'E',
+  businessCode: 'ACA.BAL.0000',
+  payload: {
+    returnCode: '0',
+    returnMessage: 'OPERACION EXITOSA',
+    totalBalance: 1105199,
+    availableBalance: 1105199,
+    blockedBalance: 0,
+    retainedBalance: 0
+  }
+}
+*/
+
+//deposit
+/*
+{
+  code: 200,
+  message: 'deposit success',
+  businessMessage: 'deposit success',
+  typeResponse: 'E',
+  businessCode: 'WDA.EDT.0000',
+  payload: {
+    returnCode: '0',
+    returnMessage: 'OPERACION EXITOSA',
+    dateTransaction: '2026-07-17T16:19:16Z',
+    trackingCode: '15000329072009700003',
+    commissionAmount: 0,
+    correlative: '9700003',
+    identifierPointer: ''
+  }
+}
+*/
