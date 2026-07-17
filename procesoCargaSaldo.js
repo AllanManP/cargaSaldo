@@ -40,19 +40,23 @@ async function request(config) {
   const response = await fetch(config.url, {
     method: config.method,
     headers: config.headers,
-    body: config.data ? JSON.stringify(config.data) : undefined,
-    agent: config.httpsAgent
+    body: config.data ? JSON.stringify(config.data) : undefined
   });
 
-  const data = await response.json();
+  const text = await response.text();
 
-  if (!response.ok) {
-    throw new Error(
-      data.message || `HTTP ${response.status} ${response.statusText}`
-    );
+  let data;
+  try {
+    data = JSON.parse(text);
+  } catch {
+    data = text;
   }
 
-  return { data };
+  return {
+    status: response.status,
+    ok: response.ok,
+    data
+  };
 }
 const listaruts = [
   { rut: "19005810", dv: "7" },
@@ -176,12 +180,22 @@ async function obtenerDatosCliente(token, clientRut, clientDv, codigosesion) {
   };
   try {
     const response = await request(config);
+    if (!response.ok) {
+        console.log("HTTP:", response.status);
+        console.dir(response.data, { depth: null });
+    }
+    
     return response.data;
    } catch (error) {
         console.error(error);
         return null;
    }
-  return response.data;
+      if (!response.ok) {
+        console.log("HTTP:", response.status);
+        console.dir(response.data, { depth: null });
+    }
+    
+    return response.data;
 }
 
 async function main(rut) {
@@ -287,7 +301,7 @@ async function main(rut) {
 
 async function obtenerTokenFrame() {
   const config = {
-    method: "POST",
+    method: "GET",
     url: `${HOST_CORE}/api/v1/access-keys-api/auth`,
     headers: {
       canal: "15",
@@ -327,6 +341,10 @@ async function consultarSaldo(tokenFrame, cliente) {
     httpsAgent: agent,
   };
   const response = await request(config);
+    if (!response.ok) {
+    console.log("HTTP:", response.status);
+    console.dir(response.data, { depth: null });
+}
   return response.data;
 }
 function mostrarSaldo(titulo, respuesta) {
@@ -374,7 +392,10 @@ async function realizarDeposito(tokenFrame, cliente) {
     httpsAgent: agent,
   };
   const response = await request(config);
-    
+    if (!response.ok) {
+    console.log("HTTP:", response.status);
+    console.dir(response.data, { depth: null });
+}
   return response.data;
 }
 
