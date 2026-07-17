@@ -1,5 +1,4 @@
 const https = require("https");
-const axios = require("axios");
 const readline = require("readline");
 const agent = new https.Agent({ rejectUnauthorized: false });
 const secretKey = "823e4567-e89b-12d3-a456-426614174000";
@@ -37,7 +36,24 @@ function signJWT(payload, secret) {
 
     return `${data}.${signature}`;
 }
+async function request(config) {
+  const response = await fetch(config.url, {
+    method: config.method,
+    headers: config.headers,
+    body: config.data ? JSON.stringify(config.data) : undefined,
+    agent: config.httpsAgent
+  });
 
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(
+      data.message || `HTTP ${response.status} ${response.statusText}`
+    );
+  }
+
+  return { data };
+}
 const listaruts = [
   { rut: "19005810", dv: "7" },
   { rut: "19006643", dv: "6" },
@@ -127,7 +143,7 @@ async function obtenerTokenSalesforce(clientRut, clientDv, codigosesion) {
     httpsAgent: agent,
   };
   // console.log(data,config)
-  const response = await axios.request(config);
+  const response = await request(config);
   // console.log(response.data);
   return response.data.AccessToken;
 }
@@ -158,10 +174,13 @@ async function obtenerDatosCliente(token, clientRut, clientDv, codigosesion) {
     data: { rutcliente: `${clientRut}${clientDv}` },
     httpsAgent: agent,
   };
-  const response = await axios.request(config).catch((error) => {
-    // console.error('   al obtener datos del cliente:', error.response ? error.response.data : error.message);
-    return error; // Re-lanzar el error para que pueda ser manejado por el llamador
-  });
+  try {
+    const response = await request(config);
+    return response.data;
+   } catch (error) {
+        console.error(error);
+        return null;
+   }
   return response.data;
 }
 
@@ -263,7 +282,7 @@ async function obtenerTokenFrame() {
     },
     httpsAgent: agent,
   };
-  const response = await axios.request(config);
+  const response = await request(config);
   return response.data.payload.accessToken;
 }
 
@@ -291,7 +310,7 @@ async function consultarSaldo(tokenFrame, cliente) {
     },
     httpsAgent: agent,
   };
-  const response = await axios.request(config);
+  const response = await request(config);
   return response.data;
 }
 
@@ -330,8 +349,15 @@ async function realizarDeposito(tokenFrame, cliente) {
     },
     httpsAgent: agent,
   };
-  const response = await axios.request(config);
+  const response = await request(config);
+    
   return response.data;
 }
 
 main(listaruts);
+
+
+//NODE_TLS_REJECT_UNAUTHORIZED=0 node app.js
+// o
+//set NODE_TLS_REJECT_UNAUTHORIZED=0
+//node app.js
