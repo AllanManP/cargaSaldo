@@ -422,3 +422,33 @@ main(listaruts);
   }
 }
 */
+/*
+wsldev@SH-AVDDRTV9-23:/mnt/c/Users/amanriq7/documents$ NODE_TLS_REJECT_UNAUTHORIZED=0 node cargaSaldo.js
+
+¿Desea realizar depósito a las cuentas obtenidas? (S/N): S
+(node:2321) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+==========================================
+TOKEN FRAME OBTENIDO
+==========================================
+
+======================================================
+Cliente 19005810-7
+======================================================
+Saldo antes del depósito: $2.694.399
+
+Realizando depósito...
+
+/mnt/c/Users/amanriq7/documents/cargaSaldo.js:50
+    throw new Error(
+          ^
+
+Error: error getting deposit
+    at request (/mnt/c/Users/amanriq7/documents/cargaSaldo.js:50:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async realizarDeposito (/mnt/c/Users/amanriq7/documents/cargaSaldo.js:367:20)
+    at async main (/mnt/c/Users/amanriq7/documents/cargaSaldo.js:250:24)
+
+Node.js v18.20.8
+*/
