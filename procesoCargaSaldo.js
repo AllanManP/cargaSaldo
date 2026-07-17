@@ -1,4 +1,3 @@
-const jwt = require("jsonwebtoken");
 const https = require("https");
 const axios = require("axios");
 const readline = require("readline");
@@ -7,6 +6,37 @@ const secretKey = "823e4567-e89b-12d3-a456-426614174000";
 const HOST_CORE = "https://api.integracioncore.test.amazon.bestado.cl";
 const MONTO_DEPOSITO = 1000000;
 let correlative = 9700000;
+const crypto = require("crypto");
+
+function base64url(obj) {
+    return Buffer.from(JSON.stringify(obj))
+        .toString("base64")
+        .replace(/=/g, "")
+        .replace(/\+/g, "-")
+        .replace(/\//g, "_");
+}
+
+function signJWT(payload, secret) {
+    const header = {
+        alg: "HS256",
+        typ: "JWT"
+    };
+
+    const encodedHeader = base64url(header);
+    const encodedPayload = base64url(payload);
+
+    const data = `${encodedHeader}.${encodedPayload}`;
+
+    const signature = crypto
+        .createHmac("sha256", secret)
+        .update(data)
+        .digest("base64")
+        .replace(/=/g, "")
+        .replace(/\+/g, "-")
+        .replace(/\//g, "_");
+
+    return `${data}.${signature}`;
+}
 
 const listaruts = [
   { rut: "19005810", dv: "7" },
@@ -70,7 +100,7 @@ async function obtenerTokenSalesforce(clientRut, clientDv, codigosesion) {
     codigosesion: codigosesion,
     exp: 123467899876543,
   };
-  const token = jwt.sign(payload, secretKey);
+  const token = signJWT(payload, secretKey);
   let config = {
     method: "POST",
     // maxBodyLength: Infinity,
