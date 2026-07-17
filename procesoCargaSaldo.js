@@ -236,21 +236,37 @@ async function main(rut) {
       console.log("======================================================");
       console.log(`Cliente ${cliente.rut}-${cliente.dv}`);
       console.log("======================================================");
+      
       console.log("\nSaldo antes del depósito:\n");
       const saldoAntes = await consultarSaldo(tokenFrame, cliente);
-      console.dir(saldoAntes, { depth: null });
+      if (saldoAntes.payload?.returnCode === "0") {
+        console.log(
+          `Saldo antes: $${saldoAntes.payload.totalBalance.toLocaleString("es-CL")}`
+        );
+      } else {
+        console.log("No fue posible obtener el saldo.");
+      }
+
       console.log("\nRealizando depósito...\n");
       const deposito = await realizarDeposito(tokenFrame, cliente);
-      console.dir(deposito, { depth: null });
-
       if (deposito.payload?.returnCode === "0") {
-        console.log("\nDepósito realizado correctamente.\n");
+        console.log("✓ Depósito realizado correctamente.");
+        console.log(`Tracking: ${deposito.payload.trackingCode}`);
       } else {
-        console.log("\nEl depósito retornó un error.\n");
+        console.log(
+          `✗ Error: ${deposito.payload?.returnMessage ?? "Error desconocido"}`
+        );
       }
+
       console.log("\nSaldo después del depósito:\n");
       const saldoDespues = await consultarSaldo(tokenFrame, cliente);
-      console.dir(saldoDespues, { depth: null });
+      if (saldoDespues.payload?.returnCode === "0") {
+        console.log(
+          `Saldo después: $${saldoDespues.payload.totalBalance.toLocaleString("es-CL")}`
+        );
+      } else {
+        console.log("No fue posible obtener el saldo.");
+      }
       console.log("\n\n");
     }
   } else {
@@ -313,7 +329,15 @@ async function consultarSaldo(tokenFrame, cliente) {
   const response = await request(config);
   return response.data;
 }
-
+function mostrarSaldo(titulo, respuesta) {
+  if (respuesta.payload?.returnCode === "0") {
+    console.log(
+      `${titulo}: $${respuesta.payload.totalBalance.toLocaleString("es-CL")}`
+    );
+  } else {
+    console.log(`${titulo}: No disponible`);
+  }
+}
 async function realizarDeposito(tokenFrame, cliente) {
   const datos = generarDatosDeposito();
   const config = {
