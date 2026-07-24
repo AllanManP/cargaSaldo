@@ -148,6 +148,8 @@ pm.environment.set("time",hora);
 pm.environment.set("date",fechaFormateada);
 }
 
+00020126620021cl.bancoestado.cirrus0133281013042026072412123544256683498630453D8
+
 
 
 Cuenta Mambu:
