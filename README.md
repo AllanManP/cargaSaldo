@@ -148,12 +148,5 @@ pm.environment.set("time",hora);
 pm.environment.set("date",fechaFormateada);
 }
 
-00020126620021cl.bancoestado.cirrus0133281013042026072412123544256683498630453D8
+00020126620021cl.bancoestado.cirrus01332810130420260724121815333241740206304D5C5
 
-
-
-Cuenta Mambu:
-00247772073126
- 
-Cuenta Mainframe:
-35271047086
