@@ -285,6 +285,7 @@ async function main(rut) {
       console.log("\n\n");
     }
   } else {
+    const tokenFrame = await obtenerTokenFrame();
     console.log("\n==========================================");
     console.log("DATOS DE CUENTAS OBTENIDOS");
     console.log("==========================================\n");
@@ -295,6 +296,14 @@ async function main(rut) {
       console.log("======================================================");
       console.log(`Cuenta Mambu: ${cliente.cuentaMambu}`);
       console.log(`Cuenta Mainframe: ${cliente.cuentaMainframe}`);
+        const saldo = await consultarSaldo(tokenFrame, cliente);
+      if (saldo.payload?.returnCode === "0") {
+        console.log(
+          `Saldo: $${saldo.payload.totalBalance.toLocaleString("es-CL")}`
+        );
+      } else {
+        console.log("No fue posible obtener el saldo.");
+      }
       console.log("\n\n");
     }
   }
@@ -404,73 +413,4 @@ main(listaruts);
 
 
 //NODE_TLS_REJECT_UNAUTHORIZED=0 node app.js
-// o
-//set NODE_TLS_REJECT_UNAUTHORIZED=0
-//node app.js
-/*
-{
-  code: 200,
-  message: 'balances success',
-  businessMessage: 'balances success',
-  typeResponse: 'E',
-  businessCode: 'ACA.BAL.0000',
-  payload: {
-    returnCode: '0',
-    returnMessage: 'OPERACION EXITOSA',
-    totalBalance: 1105199,
-    availableBalance: 1105199,
-    blockedBalance: 0,
-    retainedBalance: 0
-  }
-}
-*/
 
-//deposit
-/*
-{
-  code: 200,
-  message: 'deposit success',
-  businessMessage: 'deposit success',
-  typeResponse: 'E',
-  businessCode: 'WDA.EDT.0000',
-  payload: {
-    returnCode: '0',
-    returnMessage: 'OPERACION EXITOSA',
-    dateTransaction: '2026-07-17T16:19:16Z',
-    trackingCode: '15000329072009700003',
-    commissionAmount: 0,
-    correlative: '9700003',
-    identifierPointer: ''
-  }
-}
-*/
-/*
-wsldev@SH-AVDDRTV9-23:/mnt/c/Users/amanriq7/documents$ NODE_TLS_REJECT_UNAUTHORIZED=0 node cargaSaldo.js
-
-¿Desea realizar depósito a las cuentas obtenidas? (S/N): S
-(node:2321) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.
-(Use `node --trace-warnings ...` to show where the warning was created)
-
-==========================================
-TOKEN FRAME OBTENIDO
-==========================================
-
-======================================================
-Cliente 19005810-7
-======================================================
-Saldo antes del depósito: $2.694.399
-
-Realizando depósito...
-
-/mnt/c/Users/amanriq7/documents/cargaSaldo.js:50
-    throw new Error(
-          ^
-
-Error: error getting deposit
-    at request (/mnt/c/Users/amanriq7/documents/cargaSaldo.js:50:11)
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at async realizarDeposito (/mnt/c/Users/amanriq7/documents/cargaSaldo.js:367:20)
-    at async main (/mnt/c/Users/amanriq7/documents/cargaSaldo.js:250:24)
-
-Node.js v18.20.8
-*/
