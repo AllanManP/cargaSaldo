@@ -148,4 +148,21 @@ pm.environment.set("time",hora);
 pm.environment.set("date",fechaFormateada);
 }
 
-00020126620021cl.bancoestado.cirrus01332810130420260727164150621670542906304F2E5
+Error:
+
+wsldev@SH-AVDDRTV9-23:/mnt/c/Users/amanriq7/Documents$ NODE_TLS_REJECT_UNAUTHORIZED=0 node cargaSaldo.js
+
+¿Desea realizar depósito a las cuentas obtenidas? (S/N): n
+(node:1886) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.
+(Use `node --trace-warnings ...` to show where the warning was created)
+/mnt/c/Users/amanriq7/Documents/cargaSaldo.js:320
+  return response.data.payload.accessToken;
+                               ^
+
+TypeError: Cannot read properties of undefined (reading 'accessToken')
+    at obtenerTokenFrame (/mnt/c/Users/amanriq7/Documents/cargaSaldo.js:320:32)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async main (/mnt/c/Users/amanriq7/Documents/cargaSaldo.js:282:24)
+
+Node.js v18.20.8
+
