@@ -1,168 +1,665 @@
-Bearer token: 823e4567-e89b-12d3-a456-426614174000
-
-curl --location 'https://cloud-suc-interno-qa.banco.bestado.cl/api/v1/tokeninterno-api/generaToken' \
---header 'rutcliente: 190058107' \
---header 'etapa: Obtener Metodos Autorizacion' \
---header 'xTrackID: e2e0dce2-359a-4946-b61d-d8f9824984a3' \
---header 'ipCliente: 181.226.61.157' \
---header 'operacion: GetDatosCliente' \
---header 'codigosesion: 2c9bd9a8-cbe9-4f85-9b13-f1a3caba35b5' \
---header 'nombreAplicacion: EnrolamientoSuperAPP' \
---header 'tipoArtefacto: BFF' \
---header 'nombreArtefacto: XXX-XXXX-bff' \
---header 'dispositivo: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36' \
---header 'funcionalidad: Enrolamiento superAPP' \
---header 'time: 1712606953821' \
---header 'id: de7ba310-f5e3-11ee-99e3-27e4ec8f78b3' \
---header 'canal: 09' \
---header 'Content-Type: application/json' \
---header 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwicnV0Q29uc3VsdGEiOiIxOTAwNTgxMDciLCJpYXQiOjk1MTYyMzkwMjIsImNvZGlnb3Nlc2lvbiI6IjJjOWJkOWE4LWNiZTktNGY4NS05YjEzLWYxYTNjYWJhMzViNSIsImV4cCI6OTUxNjIzOTAyMn0.2fcSx8pcTUhHyz6f6w7p4F3jVIASODktPmJ1W8Gf8zE' \
---header 'Cookie: _csrf=Gz1s_be-RXx99zNFkrXDHroV' \
---data '{
-    "rutToken": "190058107"
-}'
-
-
----
-
-curl --location 'https://cloud-suc-interno-qa.banco.bestado.cl/api/v1/replicaclientes-api/resumen-clientes' \
---header 'rutPersonaNatural: 190058107' \
---header 'etapa: Obtener Metodos Autorizacion' \
---header 'xTrackID: e2e0dce2-359a-4946-b61d-d8f9824984a3' \
---header 'ipCliente: 181.226.61.157' \
---header 'operacion: GetDatosCliente' \
---header 'codigosesion: 2c9bd9a8-cbe9-4f85-9b13-f1a3caba35b5' \
---header 'nombreAplicacion: EnrolamientoSuperAPP' \
---header 'tipoArtefacto: BFF' \
---header 'nombreArtefacto: XXX-XXXX-bff' \
---header 'dispositivo: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36' \
---header 'funcionalidad: Enrolamiento superAPP' \
---header 'time: 1712606953821' \
---header 'id: de7ba310-f5e3-11ee-99e3-27e4ec8f78b3' \
---header 'canal: 09' \
---header 'sinproductos: false' \
---header 'Content-Type: application/json' \
---header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJydXRDb25zdWx0YSI6IjE5MDA1ODEwNyIsImNvZGlnb3Nlc2lvbiI6IjJjOWJkOWE4LWNiZTktNGY4NS05YjEzLWYxYTNjYWJhMzViNSIsImlhdCI6MTc4NDA0Mzc2MSwiZXhwIjoxNzg0MDQ3OTYxfQ.GD8PeAQjdY7Hvi7wVzL9vj9Whygzat-R8yblqse66ew' \
---header 'Cookie: _csrf=Gz1s_be-RXx99zNFkrXDHroV' \
---data '{
-    "rutcliente": "190058107"
-}'
-
-
-pre request:
-const clientRut = pm.environment.get("clientRut");
-const clientDv = pm.environment.get("clientDv");
-
-pm.environment.set(
-    "rut",
-    `${clientRut}${clientDv}`
-);
-
------
-
-
-curl --location 'https://api.integracioncore.test.amazon.bestado.cl/api/v1/access-keys-api/auth' \
---header 'canal: 15' \
---header 'access-api-key: ff92d31b-5023-4099-91d4-1a9414c14f6b' \
---header 'iss: SUPERAPP' \
---header 'aud: aws-apis-core' \
---header 'sub: transaction'
-
-script post:
-      pm.test("GET JWT OK", function () {
-            var jsonData = pm.response.json();
-                  pm.environment.set("accessToken", ''+jsonData.payload.accessToken);
-                  pm.environment.set("refreshToken", ''+jsonData.payload.refreshToken);
-                 pm.expect(pm.response.code).to.be.oneOf([200, 201]);
-              });
-
------
-
-curl --location 'https://{{host_api}}/api/v1/withdrawal-deposit-api/deposit' \
--header 'Authorization: Bearer {{accessToken}}'
---header 'canal: SuperAPP_IN' \
---header 'nombreFuncionalidad: Abono QR Super App' \
---header 'codigoFuncionalidad: PQR15' \
---header 'etapaCanal: DEPOSITO' \
---header 'ipCliente: 192.168.1.87' \
---header 'idDispositivo: 9087ce6f-9fa7-49d2-84d9-1becfd936475' \
---header 'codigoSesion: 352fc58b-97c8-43ad-b7ce-59a7ae12b607' \
---header 'Content-Type: application/json' \
---data '{
-    "idTransaction": "{{transactionID}}",
-    "mambuAccountNumber": "{{mambuAccountNumber}}",
-    "mainframeAccountNumber": "{{mainframeAccountNumber}}",
-    "accountType": "CTV",
-    "clientRUT": {{clientRut}},
-    "clientDV": "{{clientDv}}",
-    "amount": 1000000,
-    "shortDescription": "DEPOSITO PRUEBA",
-    "mediumDescription": "DEPOSITO PRUEBA",
-    "longDescription": "DEPOSITO PRUEBA {{time}} {{date}} {{transactionID}}",
-    "currencyCode": "CLP",
-    "accountingDate": "{{accountDate}}",
-    "correlative": "{{correlative}}",
-    "clientName": "Cliente prueba",
-    "conventionCode": "1"
-}'
-
+Consulta-clientes
 {
-console.clear();
-const calculaFechaContable = (fecha) => {
-    let fechaContable = new Date(fecha);
-    let opciones = { timeZone: 'America/Santiago', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
-    let hora = fechaContable.toLocaleTimeString('es-CL', opciones);
-    
-    if(hora >= '14:00:00'){
-        fechaContable = new Date(fechaContable.setDate(fechaContable.getDate()+1))
-    }
-    while (fechaContable.getDay() === 6 || fechaContable.getDay() === 0) {
-        fechaContable = new Date(fechaContable.setDate(fechaContable.getDate()+1))
-    }
-    return fechaContable.toISOString().split('T')[0];
+  _id: '6626e742e33fe94bdf6180e0',
+  BE_RUT__c: '160019425',
+  BE_ActividadEconomica_N1__c: '',
+  BE_ActividadEconomica_N2__c: '',
+  BE_ActividadEconomica_N3__c: '',
+  BE_CRS__c: 'false',
+  BE_Celular_MejorContactabilidad__c: '56935382079',
+  BE_ClienteRestringido__c: 'false',
+  BE_CodigoNanosegmento__c: 'a1q4V00000J5bDlQAJ',
+  BE_CorreoElectronicoCorrelativo__c: '',
+  BE_CorreoElectronicoParticular_Corr__pc: '',
+  BE_CorreoElectronicoParticular__pc: 'jzgka@example.com',
+  BE_CorreoElectronico__c: 'sappqa3honor@gmail.com',
+  BE_EPP__c: 'false',
+  BE_Email_Correlativo__pc: '002',
+  BE_Email_MejorContactabilidad__c: 'sappqa5@gmail.com',
+  BE_FATCA__c: 'false',
+  BE_HomePhone_Correlativo__pc: '',
+  BE_MacroSegmento__c: 'PERSO',
+  BE_MailingAddr_CasPostal__pc: '0',
+  BE_MailingAddr_Complemento__pc: '0',
+  BE_MailingAddr_Correlativo__pc: '001',
+  BE_MailingAddr_FechaVerificacion__pc: '',
+  BE_MailingAddr_LocalidadComuna__pc: 'a1p6g000001goJPAAY',
+  BE_MailingAddr_NoBlock__pc: '',
+  BE_MailingAddr_NoDepartamento__pc: '',
+  BE_MailingAddr_NoPiso__pc: '',
+  BE_MailingAddr_NroFiscal__pc: '0',
+  BE_MailingAddr_Poblacion__pc: 'lbArU',
+  BE_MailingAddr_SinNumero__pc: 'false',
+  BE_MailingAddr_Street__pc: 'xINvY',
+  BE_MailingAddr_TipoDireccion__pc: '1',
+  BE_MailingAddr_Verificacion__pc: 'true',
+  BE_MediodeContactoPreferente__c: 'Teléfono celular',
+  BE_Microsegmento__c: '',
+  BE_MobilePhone_Correlativo__pc: '001',
+  BE_Nacionalidad__pc: '1',
+  BE_NombreFantasia__c: '',
+  BE_NumeroTrabajadores__c: '',
+  BE_OtherAddr_Complemento__pc: '',
+  BE_OtherAddr_Correlativo__pc: '',
+  BE_OtherAddr_TipoDireccion__pc: '',
+  BE_OtherPhone_Correlativo__pc: '',
+  BE_OtraDireccion_CasPostal__pc: '0',
+  BE_PEPVigente__c: 'false',
+  BE_PaisNacionalidad__pc: '160',
+  BE_PhoneAnexo__c: '0',
+  BE_Phone_Correlativo__c: '',
+  BE_Profesion__pc: '022',
+  BE_RUTCliente__pc: '160019425',
+  BE_RUTContacto__pc: '',
+  BE_RazonSocial__c: '',
+  BE_SegmentoCliente__c: 'PERSO',
+  BE_Subsegmento__c: 'ADULTO',
+  BE_Sucursal__c: 'a1r6g000000a7x9AAA',
+  BE_TelefonoCelularCorrelativo__c: '',
+  BE_TelefonoCelular__c: '56985795566',
+  BE_TipoActividadEconmica__c: '01',
+  BE_TipoActividad__pc: '01',
+  BE_contrato24Horas__c: 'true',
+  Fecha_de_defuncion__c: '',
+  FinServ__CountryOfResidence__pc: '',
+  FinServ__Gender__pc: 'M',
+  FinServ__MaritalStatus__pc: '1',
+  FirstName: 'ZvhNK',
+  Id: '0016g00000dPRtqAAG',
+  IsDeleted: 'false',
+  LastName: 'IdRJR',
+  Name: 'ZvhNK npQlJ IdRJR EKMQp',
+  PersonBirthdate: '1984-09-20',
+  PersonDoNotCall: 'false',
+  PersonEmail: 'ifcsf@example.com',
+  PersonHomePhone: '56201792724',
+  PersonMobilePhone: '56275028107',
+  Phone: '56298971337',
+  RecordTypeId: '0126g000000fVQcAAM',
+  Suffix: 'EKMQp',
+  SystemModstamp: '2026-05-20T19:37:05.000Z',
+  BE_Celular_datoseguro__c: 'NjRlN2IyMzA2YWQ4Mjc2NmU0ZmI3NTZkNDczNTQyMmE=',
+  BE_Email_datoseguro__c: 'ZjM4Mjc0ZGY2YzEyYmMyNmJjZjM4YzE0MmI2ZWNmNjEyNjUzNDc5MTZmZWJmNTYxZWMyODExZDQ3NTFjMTQxZg==',
+  BE_Estado_datoseguro__c: true,
+  FinServ__PrimaryContact__c: '0036g00000c4WTmAAM',
+  Actividad_economica_SII_2__c: '',
+  Actividad_economica_SII_3__c: '',
+  Actividad_economica_SII_4__c: '',
+  Actividad_economica_SII_5__c: '',
+  Actividad_economica_SII__c: '',
+  BE_ShippingAddr_CasPostal__c: '0',
+  BE_ShippingAddr_Complemento__c: '',
+  BE_ShippingAddr_Correlativo__c: '003',
+  BE_ShippingAddr_FechaVerificacion__c: '',
+  BE_ShippingAddr_LocalidadComuna__c: 'a1p6g000001goI8AAI',
+  BE_ShippingAddr_NoBlock__c: '',
+  BE_ShippingAddr_NoDepartamento__c: '666',
+  BE_ShippingAddr_NoPiso__c: '',
+  BE_ShippingAddr_NroFiscal__c: '6666',
+  BE_ShippingAddr_Poblacion__c: '',
+  BE_ShippingAddr_SinNumero__c: 'false',
+  BE_ShippingAddr_Street__c: 'Salvador Allende',
+  BE_ShippingAddr_TipoDireccion__c: '2',
+  BE_ShippingAddr_Verificacion__c: 'false',
+  Fecha_inicio_actividad_economica_SII_2__c: '',
+  Fecha_inicio_actividad_economica_SII_3__c: '',
+  Fecha_inicio_actividad_economica_SII_4__c: '',
+  Fecha_inicio_actividad_economica_SII_5__c: '',
+  Fecha_inicio_actividad_economica_SII__c: '',
+  V360_MccCode__c: '',
+  BE_EjecutivoBI__c: '',
+  BE_NivelEducacional__pc: '2',
+  BE_OtraDireccion_Complemento__pc: '',
+  BE_OtraDireccion_Correlativo__pc: '',
+  BE_OtraDireccion_FechaVerificacion__pc: '',
+  BE_OtraDireccion_LocalidadComuna__pc: '',
+  BE_OtraDireccion_NoBlock__pc: '',
+  BE_OtraDireccion_NoDepartamento__pc: '',
+  BE_OtraDireccion_NoPiso__pc: '',
+  BE_OtraDireccion_NroFiscal__pc: '0',
+  BE_OtraDireccion_Poblacion__pc: 'xRfbz',
+  BE_OtraDireccion_SinNumero__pc: 'false',
+  BE_OtraDireccion_Street__pc: 'UbMhO',
+  BE_OtraDireccion_Verificacion__pc: 'false',
+  BE_RangoRenta__pc: '',
+  BE_RentaVigente__pc: '477448.0',
+  OwnerCodigo__c: '',
+  OwnerName__c: 'Ejecutivo de negocios',
+  OwnerRut__c: '',
+  FinServ__AnnualIncome__pc: '1200000.0',
+  BE_Celular_datoseguro__s: 'NjRlN2IyMzA2YWQ4Mjc2NmU0ZmI3NTZkNDczNTQyMmE=',
+  BE_Email_datoseguro__s: 'Mjc5MDcwNjNjY2JiNjI4NDIxNDc1YTVjNmJmYjZjZGRlMzI4ZjUyMDJjMWFjM2Y5YmIxZDY3ZjMzNTliMTQ3YQ==',
+  BE_BranchCode__pc: '434',
+  BE_NombreSucursal__c: 'TALCA ESTACION',
+  BE_ClienteDenegado__c: true,
+  FinServ__FinServ__GendeDesc__pc: 'Soltero',
+  FinServ__MaritalStatusDesc__pc: 'Soltero',
+  BE_NacionalidadDesc__pc: 'CHILENA',
+  BE_PaisNacionDesc__pc: 'CHILE',
+  FinServ__FinServ__GenderDesc__pc: 'Masculino',
+  BE_TipoActividadEconmicaDesc__c: 'TRABAJADOR(A) DEPENDIENTE',
+  BE_NivelEducacionalDesc__c: 'Medio/Secundario',
+  BE_ProfesionDesc__c: 'CARABINERO',
+  Desc_Act_eco_SII__c: '',
+  Desc_Act_eco_SII2__c: '',
+  Desc_Act_eco_SII3__c: '',
+  Desc_Act_eco_SII4__c: '',
+  Desc_Act_eco_SII5__c: '',
+  BE_MailingAddr_ComunaDesc__pc: 'MAULE',
+  BE_MailingAddr_RegionDesc__pc: 'SEPTIMA REGION',
+  BE_MailingAddrCodRegion__c: '07',
+  BE_MailingAddrCodigoComuna__c: '177',
+  BE_MailingAddrCodigoLocalidad__c: '00177',
+  BE_MailingAddr_LocalidadDesc__pc: 'MAULE',
+  BE_MailingAddr_Completa__pc: '',
+  BE_ShippingAddr_ComunaDesc__pc: 'SAN MIGUEL',
+  BE_ShippingAddr_RegionDesc__pc: 'REGION METROPOLITANA',
+  BE_ShippingAddrCodRegion__c: '13',
+  BE_ShippingAddrCodigoComuna__c: '098',
+  BE_ShippingAddrCodigoLocalidad__c: '00098',
+  BE_ShippingAddr_LocalidadDesc__pc: 'SAN MIGUEL',
+  BE_ShippingAddr_Completa__pc: ' ',
+  BE_ClienteHabilitado__c: false,
+  BE_MedidasCliente: ''
 }
 
-let correlative = pm.environment.get("correlative");
-console.log(correlative)
-if(!correlative || isNaN(correlative)){
-    correlative= 9700000
-}else{
-    correlative=parseInt(correlative,10);
+
+Consulta-clientes
+{
+  _id: '6626e725e33fe9490a63045a',
+  BE_RUT__c: '160012609',
+  BE_ActividadEconomica_N1__c: '',
+  BE_ActividadEconomica_N2__c: '',
+  BE_ActividadEconomica_N3__c: '',
+  BE_CRS__c: 'false',
+  BE_Celular_MejorContactabilidad__c: '56555495964',
+  BE_ClienteRestringido__c: 'false',
+  BE_CodigoNanosegmento__c: 'a1q4V00000J5bEiQAJ',
+  BE_CorreoElectronicoCorrelativo__c: '',
+  BE_CorreoElectronicoParticular_Corr__pc: '',
+  BE_CorreoElectronicoParticular__pc: 'sdiyp@example.com',
+  BE_CorreoElectronico__c: 'vluen@example.com',
+  BE_EPP__c: 'false',
+  BE_Email_Correlativo__pc: '004',
+  BE_Email_MejorContactabilidad__c: 'wylpz@example.com',
+  BE_FATCA__c: 'false',
+  BE_HomePhone_Correlativo__pc: '',
+  BE_MacroSegmento__c: 'PERSO',
+  BE_MailingAddr_CasPostal__pc: '0',
+  BE_MailingAddr_Complemento__pc: '0',
+  BE_MailingAddr_Correlativo__pc: '001',
+  BE_MailingAddr_FechaVerificacion__pc: '2015-05-07',
+  BE_MailingAddr_LocalidadComuna__pc: 'a1p6g000001gpX5AAI',
+  BE_MailingAddr_NoBlock__pc: '',
+  BE_MailingAddr_NoDepartamento__pc: '',
+  BE_MailingAddr_NoPiso__pc: '00',
+  BE_MailingAddr_NroFiscal__pc: '0',
+  BE_MailingAddr_Poblacion__pc: 'sxflG',
+  BE_MailingAddr_SinNumero__pc: 'false',
+  BE_MailingAddr_Street__pc: 'fcFYN',
+  BE_MailingAddr_TipoDireccion__pc: '1',
+  BE_MailingAddr_Verificacion__pc: 'false',
+  BE_MediodeContactoPreferente__c: 'Teléfono celular',
+  BE_Microsegmento__c: '',
+  BE_MobilePhone_Correlativo__pc: '002',
+  BE_Nacionalidad__pc: '1',
+  BE_NombreFantasia__c: '',
+  BE_NumeroTrabajadores__c: '',
+  BE_OtherAddr_Complemento__pc: '',
+  BE_OtherAddr_Correlativo__pc: '',
+  BE_OtherAddr_TipoDireccion__pc: '',
+  BE_OtherPhone_Correlativo__pc: '',
+  BE_OtraDireccion_CasPostal__pc: '0',
+  BE_PEPVigente__c: 'false',
+  BE_PaisNacionalidad__pc: '160',
+  BE_PhoneAnexo__c: '0',
+  BE_Phone_Correlativo__c: '003',
+  BE_Profesion__pc: '',
+  BE_RUTCliente__pc: '160012609',
+  BE_RUTContacto__pc: '',
+  BE_RazonSocial__c: '',
+  BE_SegmentoCliente__c: 'PERSO',
+  BE_Subsegmento__c: 'CLASICO',
+  BE_Sucursal__c: 'a1r6g000000a7xAAAQ',
+  BE_TelefonoCelularCorrelativo__c: '',
+  BE_TelefonoCelular__c: '56950758458',
+  BE_TipoActividadEconmica__c: '01',
+  BE_TipoActividad__pc: '01',
+  BE_contrato24Horas__c: 'false',
+  Fecha_de_defuncion__c: '',
+  FinServ__CountryOfResidence__pc: '',
+  FinServ__Gender__pc: 'M',
+  FinServ__MaritalStatus__pc: '',
+  FirstName: 'cgAKb',
+  Id: '0016g00000dPQVvAAO',
+  IsDeleted: 'false',
+  LastName: 'dyUzI',
+  Name: 'cgAKb vpZNm dyUzI nIGWo',
+  PersonBirthdate: '1985-11-09',
+  PersonDoNotCall: 'false',
+  PersonEmail: 'tjpst@example.com',
+  PersonHomePhone: '56215960188',
+  PersonMobilePhone: '56293001569',
+  Phone: '56273566378',
+  RecordTypeId: '0126g000000fVQcAAM',
+  Suffix: 'nIGWo',
+  SystemModstamp: '2025-07-25T17:27:43.000Z',
+  BE_Celular_datoseguro__c: 'ZWJjNDJmNzMxYjI2OWI0MjhjMmZiNTAyNzc5ZGExNjk=',
+  BE_Email_datoseguro__c: 'OTIwMjk1YzEwM2Q5OWUwMTU3N2E0YTdhMmMyYWJjM2I5N2MyZWViOGMzZjQ1MGIyMzVjYmRkOWE1MmQ4Nzg3NQ==',
+  BE_Estado_datoseguro__c: true,
+  FinServ__PrimaryContact__c: '0036g00000c4V5jAAE',
+  Actividad_economica_SII_2__c: '',
+  Actividad_economica_SII_3__c: '',
+  Actividad_economica_SII_4__c: '',
+  Actividad_economica_SII_5__c: '',
+  Actividad_economica_SII__c: '',
+  BE_ShippingAddr_CasPostal__c: '0',
+  BE_ShippingAddr_Complemento__c: '',
+  BE_ShippingAddr_Correlativo__c: '',
+  BE_ShippingAddr_FechaVerificacion__c: '',
+  BE_ShippingAddr_LocalidadComuna__c: '',
+  BE_ShippingAddr_NoBlock__c: '',
+  BE_ShippingAddr_NoDepartamento__c: '',
+  BE_ShippingAddr_NoPiso__c: '',
+  BE_ShippingAddr_NroFiscal__c: '0',
+  BE_ShippingAddr_Poblacion__c: 'ZYfwF',
+  BE_ShippingAddr_SinNumero__c: 'false',
+  BE_ShippingAddr_Street__c: 'DXdAd',
+  BE_ShippingAddr_TipoDireccion__c: '2',
+  BE_ShippingAddr_Verificacion__c: 'false',
+  Fecha_inicio_actividad_economica_SII_2__c: '',
+  Fecha_inicio_actividad_economica_SII_3__c: '',
+  Fecha_inicio_actividad_economica_SII_4__c: '',
+  Fecha_inicio_actividad_economica_SII_5__c: '',
+  Fecha_inicio_actividad_economica_SII__c: '',
+  V360_MccCode__c: '',
+  BE_EjecutivoBI__c: '',
+  BE_NivelEducacional__pc: '',
+  BE_OtraDireccion_Complemento__pc: '',
+  BE_OtraDireccion_Correlativo__pc: '',
+  BE_OtraDireccion_FechaVerificacion__pc: '',
+  BE_OtraDireccion_LocalidadComuna__pc: '',
+  BE_OtraDireccion_NoBlock__pc: '',
+  BE_OtraDireccion_NoDepartamento__pc: '',
+  BE_OtraDireccion_NoPiso__pc: '',
+  BE_OtraDireccion_NroFiscal__pc: '0',
+  BE_OtraDireccion_Poblacion__pc: 'UvaHd',
+  BE_OtraDireccion_SinNumero__pc: 'false',
+  BE_OtraDireccion_Street__pc: 'uUAPq',
+  BE_OtraDireccion_Verificacion__pc: 'false',
+  BE_RangoRenta__pc: '',
+  BE_RentaVigente__pc: '874467.0',
+  OwnerCodigo__c: '',
+  OwnerName__c: 'Ejecutivo de negocios',
+  OwnerRut__c: '',
+  FinServ__AnnualIncome__pc: '1200000.0',
+  BE_Celular_datoseguro__s: 'ZWJjNDJmNzMxYjI2OWI0MjhjMmZiNTAyNzc5ZGExNjk=',
+  BE_Email_datoseguro__s: 'OTIwMjk1YzEwM2Q5OWUwMTU3N2E0YTdhMmMyYWJjM2I5N2MyZWViOGMzZjQ1MGIyMzVjYmRkOWE1MmQ4Nzg3NQ==',
+  BE_BranchCode__pc: '435',
+  BE_NombreSucursal__c: 'TALCA',
+  BE_ClienteDenegado__c: true,
+  BE_NacionalidadDesc__pc: 'CHILENA',
+  BE_PaisNacionDesc__pc: 'CHILE',
+  FinServ__FinServ__GenderDesc__pc: 'Masculino',
+  BE_TipoActividadEconmicaDesc__c: 'TRABAJADOR(A) DEPENDIENTE',
+  Desc_Act_eco_SII__c: '',
+  Desc_Act_eco_SII2__c: '',
+  Desc_Act_eco_SII3__c: '',
+  Desc_Act_eco_SII4__c: '',
+  Desc_Act_eco_SII5__c: '',
+  BE_MailingAddr_ComunaDesc__pc: 'TALCA',
+  BE_MailingAddr_RegionDesc__pc: 'SEPTIMA REGION',
+  BE_MailingAddrCodRegion__c: '07',
+  BE_MailingAddrCodigoComuna__c: '173',
+  BE_MailingAddrCodigoLocalidad__c: '',
+  BE_MailingAddr_LocalidadDesc__pc: '',
+  BE_MailingAddr_Completa__pc: '',
+  BE_ShippingAddr_ComunaDesc__pc: 'TALCA',
+  BE_ShippingAddr_RegionDesc__pc: 'SEPTIMA REGION',
+  BE_ShippingAddrCodRegion__c: '07',
+  BE_ShippingAddrCodigoComuna__c: '173',
+  BE_ShippingAddrCodigoLocalidad__c: ' ',
+  BE_ShippingAddr_LocalidadDesc__pc: ' ',
+  BE_ShippingAddr_Completa__pc: ' ',
+  BE_ClienteHabilitado__c: false,
+  BE_MedidasCliente: ''
 }
-let newCorrelative = correlative+1;
-let fechaActual = new Date();
-let fechaFormateada = fechaActual.toISOString().split('T')[0];
-let opciones = { timeZone: 'America/Santiago', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
-let hora = fechaActual.toLocaleTimeString('es-CL', opciones);
 
-console.log(`valor de la fecha: ${fechaFormateada}`);   
-console.log(`valor de la hora: ${hora}`); 
-console.log(`nuevo valor correlativo: ${pm.environment.get("correlative")}`);
-console.log(`nuevo valor correlativo: ${pm.environment.get("transactionID")}`);
-let fechaContable = calculaFechaContable(fechaActual);
-
-pm.environment.set("correlative", newCorrelative);
-pm.environment.set("transactionID", `1500032907200${newCorrelative}`);
-pm.environment.set("accountDate",fechaContable);
-pm.environment.set("time",hora);
-pm.environment.set("date",fechaFormateada);
+Consulta-clientes
+{
+  _id: '6626da78e33fe94bdf5b658e',
+  BE_RUT__c: '8123504K',
+  BE_ActividadEconomica_N1__c: '',
+  BE_ActividadEconomica_N2__c: '',
+  BE_ActividadEconomica_N3__c: '',
+  BE_CRS__c: 'false',
+  BE_Celular_MejorContactabilidad__c: '56955455558',
+  BE_ClienteRestringido__c: 'false',
+  BE_CodigoNanosegmento__c: 'a1q4V00000J5bJVQAZ',
+  BE_CorreoElectronicoCorrelativo__c: '',
+  BE_CorreoElectronicoParticular_Corr__pc: '',
+  BE_CorreoElectronicoParticular__pc: 'ljruv@example.com',
+  BE_CorreoElectronico__c: 'xpuaw@example.com',
+  BE_EPP__c: 'false',
+  BE_Email_Correlativo__pc: '006',
+  BE_Email_MejorContactabilidad__c: 'tnpfp@example.com',
+  BE_FATCA__c: 'false',
+  BE_HomePhone_Correlativo__pc: '001',
+  BE_MacroSegmento__c: 'PERSO',
+  BE_MailingAddr_CasPostal__pc: '0',
+  BE_MailingAddr_Complemento__pc: '0',
+  BE_MailingAddr_Correlativo__pc: '001',
+  BE_MailingAddr_FechaVerificacion__pc: '2012-05-25',
+  BE_MailingAddr_LocalidadComuna__pc: 'a1p6g000001gpWdAAI',
+  BE_MailingAddr_NoBlock__pc: '',
+  BE_MailingAddr_NoDepartamento__pc: '',
+  BE_MailingAddr_NoPiso__pc: '00',
+  BE_MailingAddr_NroFiscal__pc: '0',
+  BE_MailingAddr_Poblacion__pc: 'dKCAz',
+  BE_MailingAddr_SinNumero__pc: 'false',
+  BE_MailingAddr_Street__pc: 'JBsWx',
+  BE_MailingAddr_TipoDireccion__pc: '1',
+  BE_MailingAddr_Verificacion__pc: 'true',
+  BE_MediodeContactoPreferente__c: 'Teléfono celular',
+  BE_Microsegmento__c: '',
+  BE_MobilePhone_Correlativo__pc: '003',
+  BE_Nacionalidad__pc: '1',
+  BE_NombreFantasia__c: '',
+  BE_NumeroTrabajadores__c: '',
+  BE_OtherAddr_Complemento__pc: '',
+  BE_OtherAddr_Correlativo__pc: '',
+  BE_OtherAddr_TipoDireccion__pc: '',
+  BE_OtherPhone_Correlativo__pc: '',
+  BE_OtraDireccion_CasPostal__pc: '0',
+  BE_PEPVigente__c: 'false',
+  BE_PaisNacionalidad__pc: '160',
+  BE_PhoneAnexo__c: '0',
+  BE_Phone_Correlativo__c: '001',
+  BE_Profesion__pc: '026',
+  BE_RUTCliente__pc: '8123504K',
+  BE_RUTContacto__pc: '',
+  BE_RazonSocial__c: '',
+  BE_SegmentoCliente__c: 'PERSO',
+  BE_Subsegmento__c: 'CLASICO',
+  BE_Sucursal__c: 'a1r6g000000a7vWAAQ',
+  BE_TelefonoCelularCorrelativo__c: '',
+  BE_TelefonoCelular__c: '56996890599',
+  BE_TipoActividadEconmica__c: '01',
+  BE_TipoActividad__pc: '02',
+  BE_contrato24Horas__c: 'true',
+  Fecha_de_defuncion__c: '',
+  FinServ__CountryOfResidence__pc: '160',
+  FinServ__Gender__pc: 'F',
+  FinServ__MaritalStatus__pc: '2',
+  FirstName: 'sLIon',
+  Id: '0014V00001jodRrQAI',
+  IsDeleted: 'false',
+  LastName: 'ItpOn',
+  Name: 'sLIon HRcxb ItpOn wjkOI',
+  PersonBirthdate: '1958-12-04',
+  PersonDoNotCall: 'false',
+  PersonEmail: 'uvgfc@example.com',
+  PersonHomePhone: '56238381127',
+  PersonMobilePhone: '56267506288',
+  Phone: '56241684676',
+  RecordTypeId: '0126g000000fVQcAAM',
+  Suffix: 'wjkOI',
+  SystemModstamp: '2025-07-28T22:10:08.000Z',
+  BE_Celular_datoseguro__c: 'YTM2OTM1ZDc2NTI4MGFlNmZiM2I3NWMyZmI3NGIwYTI=',
+  BE_Email_datoseguro__c: 'YmFiZTNkYzRhZWNiODljNGU0NTg2NjY1ZmQzMWUyOWY1YzkyMzUxOWI5N2NmZmFjMTFiZDEwMzVkZmQ2NDlkMw==',
+  BE_Estado_datoseguro__c: true,
+  FinServ__PrimaryContact__c: '0034V00002a91q0QAA',
+  Actividad_economica_SII_2__c: '',
+  Actividad_economica_SII_3__c: '',
+  Actividad_economica_SII_4__c: '',
+  Actividad_economica_SII_5__c: '',
+  Actividad_economica_SII__c: '',
+  BE_ShippingAddr_CasPostal__c: '0',
+  BE_ShippingAddr_Complemento__c: '',
+  BE_ShippingAddr_Correlativo__c: '',
+  BE_ShippingAddr_FechaVerificacion__c: '',
+  BE_ShippingAddr_LocalidadComuna__c: '',
+  BE_ShippingAddr_NoBlock__c: '',
+  BE_ShippingAddr_NoDepartamento__c: '',
+  BE_ShippingAddr_NoPiso__c: '',
+  BE_ShippingAddr_NroFiscal__c: '0',
+  BE_ShippingAddr_Poblacion__c: 'eqsdP',
+  BE_ShippingAddr_SinNumero__c: 'false',
+  BE_ShippingAddr_Street__c: 'eRvxS',
+  BE_ShippingAddr_TipoDireccion__c: '2',
+  BE_ShippingAddr_Verificacion__c: 'false',
+  Fecha_inicio_actividad_economica_SII_2__c: '',
+  Fecha_inicio_actividad_economica_SII_3__c: '',
+  Fecha_inicio_actividad_economica_SII_4__c: '',
+  Fecha_inicio_actividad_economica_SII_5__c: '',
+  Fecha_inicio_actividad_economica_SII__c: '',
+  V360_MccCode__c: '',
+  BE_EjecutivoBI__c: '',
+  BE_NivelEducacional__pc: '3',
+  BE_OtraDireccion_Complemento__pc: '',
+  BE_OtraDireccion_Correlativo__pc: '',
+  BE_OtraDireccion_FechaVerificacion__pc: '',
+  BE_OtraDireccion_LocalidadComuna__pc: '',
+  BE_OtraDireccion_NoBlock__pc: '',
+  BE_OtraDireccion_NoDepartamento__pc: '',
+  BE_OtraDireccion_NoPiso__pc: '',
+  BE_OtraDireccion_NroFiscal__pc: '0',
+  BE_OtraDireccion_Poblacion__pc: 'TxfZU',
+  BE_OtraDireccion_SinNumero__pc: 'false',
+  BE_OtraDireccion_Street__pc: 'XDXYf',
+  BE_OtraDireccion_Verificacion__pc: 'false',
+  BE_RangoRenta__pc: '05',
+  BE_RentaVigente__pc: '959330.0',
+  OwnerCodigo__c: '',
+  OwnerName__c: 'Ejecutivo de negocios',
+  OwnerRut__c: '',
+  FinServ__AnnualIncome__pc: '1200000.0',
+  BE_Celular_datoseguro__s: 'YTM2OTM1ZDc2NTI4MGFlNmZiM2I3NWMyZmI3NGIwYTI=',
+  BE_Email_datoseguro__s: 'YmFiZTNkYzRhZWNiODljNGU0NTg2NjY1ZmQzMWUyOWY1YzkyMzUxOWI5N2NmZmFjMTFiZDEwMzVkZmQ2NDlkMw==',
+  BE_BranchCode__pc: '320',
+  BE_NombreSucursal__c: 'STGO. AV. C.COLON',
+  BE_ClienteDenegado__c: true,
+  FinServ__FinServ__GendeDesc__pc: 'Casado',
+  FinServ__MaritalStatusDesc__pc: 'Casado',
+  BE_NacionalidadDesc__pc: 'CHILENA',
+  BE_PaisNacionDesc__pc: 'CHILE',
+  FinServ__FinServ__GenderDesc__pc: 'Femenino',
+  BE_TipoActividadEconmicaDesc__c: 'TRABAJADOR(A) DEPENDIENTE',
+  BE_NivelEducacionalDesc__c: 'Universitaria Incompleta',
+  BE_RangoRentaDesc__c: '400.001 y 600.000',
+  BE_ProfesionDesc__c: 'SIN PROFESIÓN COMPROBADA',
+  Desc_Act_eco_SII__c: '',
+  Desc_Act_eco_SII2__c: '',
+  Desc_Act_eco_SII3__c: '',
+  Desc_Act_eco_SII4__c: '',
+  Desc_Act_eco_SII5__c: '',
+  BE_MailingAddr_ComunaDesc__pc: 'las condes',
+  BE_MailingAddr_RegionDesc__pc: 'REGION METROPOLITANA',
+  BE_MailingAddrCodRegion__c: '13',
+  BE_MailingAddrCodigoComuna__c: '088',
+  BE_MailingAddrCodigoLocalidad__c: '',
+  BE_MailingAddr_LocalidadDesc__pc: '',
+  BE_MailingAddr_Completa__pc: '',
+  BE_ShippingAddr_ComunaDesc__pc: 'las condes',
+  BE_ShippingAddr_RegionDesc__pc: 'REGION METROPOLITANA',
+  BE_ShippingAddrCodRegion__c: '13',
+  BE_ShippingAddrCodigoComuna__c: '088',
+  BE_ShippingAddrCodigoLocalidad__c: ' ',
+  BE_ShippingAddr_LocalidadDesc__pc: ' ',
+  BE_ShippingAddr_Completa__pc: ' ',
+  BE_ClienteHabilitado__c: false,
+  BE_MedidasCliente: ''
 }
 
-Error:
 
-wsldev@SH-AVDDRTV9-23:/mnt/c/Users/amanriq7/Documents$ NODE_TLS_REJECT_UNAUTHORIZED=0 node cargaSaldo.js
-
-¿Desea realizar depósito a las cuentas obtenidas? (S/N): n
-(node:1886) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.
-(Use `node --trace-warnings ...` to show where the warning was created)
-/mnt/c/Users/amanriq7/Documents/cargaSaldo.js:320
-  return response.data.payload.accessToken;
-                               ^
-
-TypeError: Cannot read properties of undefined (reading 'accessToken')
-    at obtenerTokenFrame (/mnt/c/Users/amanriq7/Documents/cargaSaldo.js:320:32)
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at async main (/mnt/c/Users/amanriq7/Documents/cargaSaldo.js:282:24)
-
-Node.js v18.20.8
-
+Consulta-clientes
+{
+  _id: '6626f081e33fe94be65ee792',
+  BE_RUT__c: '8000012K',
+  BE_ActividadEconomica_N1__c: '',
+  BE_ActividadEconomica_N2__c: '',
+  BE_ActividadEconomica_N3__c: '',
+  BE_CRS__c: false,
+  BE_Celular_MejorContactabilidad__c: '56933366354',
+  BE_ClienteRestringido__c: false,
+  BE_CodigoNanosegmento__c: 'a1q4V00000J5bDlQAJ',
+  BE_CorreoElectronicoCorrelativo__c: '006',
+  BE_CorreoElectronicoParticular_Corr__pc: '',
+  BE_CorreoElectronicoParticular__pc: 'vexnu@example.com',
+  BE_CorreoElectronico__c: 'cristina.ibarra@siigroup.cl',
+  BE_EPP__c: false,
+  BE_Email_Correlativo__pc: '004',
+  BE_Email_MejorContactabilidad__c: 'sappqa3samsung@gmail.com',
+  BE_FATCA__c: false,
+  BE_HomePhone_Correlativo__pc: '001',
+  BE_MacroSegmento__c: 'PERSO',
+  BE_MailingAddr_CasPostal__pc: '0',
+  BE_MailingAddr_Complemento__pc: '0',
+  BE_MailingAddr_Correlativo__pc: '003',
+  BE_MailingAddr_FechaVerificacion__pc: '',
+  BE_MailingAddr_LocalidadComuna__pc: 'a1p6g000001goHhAAI',
+  BE_MailingAddr_NoBlock__pc: '',
+  BE_MailingAddr_NoDepartamento__pc: '',
+  BE_MailingAddr_NoPiso__pc: '',
+  BE_MailingAddr_NroFiscal__pc: '0',
+  BE_MailingAddr_Poblacion__pc: '',
+  BE_MailingAddr_SinNumero__pc: false,
+  BE_MailingAddr_Street__pc: 'PRAT',
+  BE_MailingAddr_TipoDireccion__pc: '1',
+  BE_MailingAddr_Verificacion__pc: false,
+  BE_MediodeContactoPreferente__c: 'Teléfono celular',
+  BE_Microsegmento__c: '',
+  BE_MobilePhone_Correlativo__pc: '002',
+  BE_Nacionalidad__pc: '1',
+  BE_NombreFantasia__c: '',
+  BE_NumeroTrabajadores__c: '',
+  BE_OtherAddr_Complemento__pc: '',
+  BE_OtherAddr_Correlativo__pc: '',
+  BE_OtherAddr_TipoDireccion__pc: '',
+  BE_OtherPhone_Correlativo__pc: '',
+  BE_OtraDireccion_CasPostal__pc: '0',
+  BE_PEPVigente__c: false,
+  BE_PaisNacionalidad__pc: '160',
+  BE_PhoneAnexo__c: '0',
+  BE_Phone_Correlativo__c: '001',
+  BE_Profesion__pc: '035',
+  BE_RUTCliente__pc: '8000012K',
+  BE_RUTContacto__pc: '',
+  BE_RazonSocial__c: '',
+  BE_SegmentoCliente__c: 'PERSO',
+  BE_Subsegmento__c: 'ADULTO MAYOR',
+  BE_Sucursal__c: 'a1r6g000000a7w9AAA',
+  BE_TelefonoCelularCorrelativo__c: '',
+  BE_TelefonoCelular__c: '56978449069',
+  BE_TipoActividadEconmica__c: '01',
+  BE_TipoActividad__pc: '01',
+  BE_contrato24Horas__c: true,
+  Fecha_de_defuncion__c: '',
+  FinServ__CountryOfResidence__pc: '',
+  FinServ__Gender__pc: 'F',
+  FinServ__MaritalStatus__pc: '1',
+  FirstName: 'ToHhQ',
+  Id: '0016g00000dKEQeAAO',
+  IsDeleted: false,
+  LastName: 'RnNTB',
+  Name: 'ToHhQ jfywW RnNTB VxnTg',
+  PersonBirthdate: '1959-04-19',
+  PersonDoNotCall: false,
+  PersonEmail: 'cristina.ibarra@siigroup.cl',
+  PersonHomePhone: '56265674167',
+  PersonMobilePhone: '56965674167',
+  Phone: '56265674167',
+  RecordTypeId: '0126g000000fVQcAAM',
+  Suffix: 'VxnTg',
+  SystemModstamp: '2026-07-29T14:18:06.000+0000',
+  BE_Celular_datoseguro__c: 'ODhkNWFmNWJhMjUwMDNiZDIwYTAxN2MyMWMwYTM0ODQ=',
+  BE_Email_datoseguro__c: 'ZjI4ZjZjZGIyNTc0OGQ1N2ZlNDJkNjg5YTA1MmFiMjRiODE4ZGFmODRmNDg1Mjk3MGFjMmIxM2JlOWY3YzRiMQ==',
+  BE_Estado_datoseguro__c: true,
+  FinServ__PrimaryContact__c: '0036g00000bzIrfAAE',
+  Actividad_economica_SII_2__c: '',
+  Actividad_economica_SII_3__c: '',
+  Actividad_economica_SII_4__c: '',
+  Actividad_economica_SII_5__c: '',
+  Actividad_economica_SII__c: '',
+  BE_ShippingAddr_CasPostal__c: '0',
+  BE_ShippingAddr_Complemento__c: '',
+  BE_ShippingAddr_Correlativo__c: '002',
+  BE_ShippingAddr_FechaVerificacion__c: '',
+  BE_ShippingAddr_LocalidadComuna__c: 'a1p6g000001gpFPAAY',
+  BE_ShippingAddr_NoBlock__c: '',
+  BE_ShippingAddr_NoDepartamento__c: '',
+  BE_ShippingAddr_NoPiso__c: '',
+  BE_ShippingAddr_NroFiscal__c: '0',
+  BE_ShippingAddr_Poblacion__c: 'rcGmp',
+  BE_ShippingAddr_SinNumero__c: false,
+  BE_ShippingAddr_Street__c: 'gKlSR',
+  BE_ShippingAddr_TipoDireccion__c: '2',
+  BE_ShippingAddr_Verificacion__c: false,
+  Fecha_inicio_actividad_economica_SII_2__c: '',
+  Fecha_inicio_actividad_economica_SII_3__c: '',
+  Fecha_inicio_actividad_economica_SII_4__c: '',
+  Fecha_inicio_actividad_economica_SII_5__c: '',
+  Fecha_inicio_actividad_economica_SII__c: '',
+  V360_MccCode__c: '',
+  BE_EjecutivoBI__c: '',
+  BE_NivelEducacional__pc: '4',
+  BE_OtraDireccion_Complemento__pc: '',
+  BE_OtraDireccion_Correlativo__pc: '',
+  BE_OtraDireccion_FechaVerificacion__pc: '',
+  BE_OtraDireccion_LocalidadComuna__pc: 'a1p6g000001gpFPAAY',
+  BE_OtraDireccion_NoBlock__pc: '',
+  BE_OtraDireccion_NoDepartamento__pc: '',
+  BE_OtraDireccion_NoPiso__pc: '',
+  BE_OtraDireccion_NroFiscal__pc: '0',
+  BE_OtraDireccion_Poblacion__pc: 'RsyYs',
+  BE_OtraDireccion_SinNumero__pc: false,
+  BE_OtraDireccion_Street__pc: 'uwrKh',
+  BE_OtraDireccion_Verificacion__pc: false,
+  BE_RangoRenta__pc: '08',
+  BE_RentaVigente__pc: 6500000,
+  OwnerCodigo__c: '7374',
+  OwnerName__c: 'ROCIO NAVARRETE SAEZ',
+  OwnerRut__c: '190690083',
+  FinServ__AnnualIncome__pc: 1200000,
+  BE_Celular_datoseguro__s: 'ODhkNWFmNWJhMjUwMDNiZDIwYTAxN2MyMWMwYTM0ODQ=',
+  BE_Email_datoseguro__s: 'ZjI4ZjZjZGIyNTc0OGQ1N2ZlNDJkNjg5YTA1MmFiMjRiODE4ZGFmODRmNDg1Mjk3MGFjMmIxM2JlOWY3YzRiMQ==',
+  BE_BranchCode__pc: '356',
+  BE_NombreSucursal__c: 'STGO. LA CISTERNA',
+  FinServ__FinServ__GendeDesc__pc: 'Soltero',
+  FinServ__MaritalStatusDesc__pc: 'Soltero',
+  BE_NacionalidadDesc__pc: 'CHILENA',
+  BE_PaisNacionDesc__pc: 'CHILE',
+  FinServ__FinServ__GenderDesc__pc: 'Femenino',
+  BE_TipoActividadEconmicaDesc__c: 'TRABAJADOR(A) DEPENDIENTE',
+  BE_NivelEducacionalDesc__c: 'Universitaria Completa',
+  BE_RangoRentaDesc__c: '1.000.001 y 1.500.000',
+  BE_ProfesionDesc__c: 'ARQUEÓLOGO',
+  Desc_Act_eco_SII__c: '',
+  Desc_Act_eco_SII2__c: '',
+  Desc_Act_eco_SII3__c: '',
+  Desc_Act_eco_SII4__c: '',
+  Desc_Act_eco_SII5__c: '',
+  BE_MailingAddr_ComunaDesc__pc: 'QUILPUE',
+  BE_MailingAddr_RegionDesc__pc: 'QUINTA REGION',
+  BE_MailingAddrCodRegion__c: '05',
+  BE_MailingAddrCodigoComuna__c: '070',
+  BE_MailingAddrCodigoLocalidad__c: '00070',
+  BE_MailingAddr_LocalidadDesc__pc: 'QUILPUE',
+  BE_MailingAddr_Completa__pc: '',
+  BE_ShippingAddr_ComunaDesc__pc: 'PENCO',
+  BE_ShippingAddr_RegionDesc__pc: 'OCTAVA REGION',
+  BE_ShippingAddrCodRegion__c: '08',
+  BE_ShippingAddrCodigoComuna__c: '228',
+  BE_ShippingAddrCodigoLocalidad__c: '04658',
+  BE_ShippingAddr_LocalidadDesc__pc: 'VILLA SAN RAMON',
+  BE_ShippingAddr_Completa__pc: ' ',
+  BE_OtraDireccion_ComunaDesc__pc: 'PENCO',
+  BE_OtraDireccion_RegionDesc__pc: 'OCTAVA REGION',
+  BE_OtraDireccionCodRegion__c: '08',
+  BE_OtraDireccionCodigoComuna__c: '228',
+  BE_OtraDireccionCodigoLocalidad__c: '04658',
+  BE_OtraDireccion_LocalidadDesc__pc: 'VILLA SAN RAMON',
+  BE_ClienteDenegado__c: false,
+  BE_ClienteHabilitado__c: true,
+  BE_MedidasCliente: ''
+}
