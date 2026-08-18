@@ -1,1 +1,7 @@
-2025121637803278687437
+{
+    "result": {
+        "resultCode": "SYSTEM_ERROR",
+        "resultStatus": "U",
+        "resultMessage": "System error."
+    }
+}
