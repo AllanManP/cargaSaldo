@@ -4,19 +4,23 @@
 
 216660000000556362620
 
-const content = `{
+{
         "productCode": "51051000101000100040",
     "paymentRequestId": "${uuid()}",
-    "paymentAuthCode": "281013029619414534960423",
+    "paymentAuthCode": "281013025753350678574817",
     "paymentAmount": {
         "currency": "CLP",
         "value": "4520"
     },
     "order": {
     "orderDescription": "Compra Rutpay",
+           "merchant": {
            "shopInfo": {
-               "externalShopId": "999999"
+               "externalShopId": "999999",
+               "shopId":""
               },
+           "merchantMCC": "5912"
+           },
            
         "transactionAddress": ""       
     },
@@ -31,4 +35,4 @@ const content = `{
                     "value": "4520"
                 }
             }
-    }`;
+    }
