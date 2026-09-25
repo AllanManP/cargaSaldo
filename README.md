@@ -1,15 +1,1 @@
-00020126620021cl.bancoestado.cirrus013328101304202609251606115095228098063047377
-
-
-{
-            "productCode": "51051000101000100054",
-            "paymentNotifyUrl": f"{public_url}/Webhook",
-            "paymentRedirectUrl": "" + url,
-            "order": {
-                "originalOrderAmount": {"currency": "CLP","value": str(amountLink)},
-                "orderAmount": {"currency": "CLP","value": "" + amountLink},
-                "merchantTransId": str(merchantTransId),
-                "orderTitle": "Compra Rutpay Website Cashier Mobile",
-                "transactionAddress": "Casa 123"
-            }
-        }
+https://h5-saas-test1-cirrus.bancoestado.cl/page/h5/index.html#/paymentGuidance?deeplink=bepaytest%3A%2F%2Fbancoestado%2Fdeeplink.htm%3Faction%3Dnative%26pageId%3Dpayment%26usecase%3DmobileWebsiteCashier%26shortUrl%3Dhttp%3A%2F%2Fmgs-test1.aliyun.paytech.com%2Fs%2Fhvy32fk5
