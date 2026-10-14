@@ -1,3 +1,31 @@
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4o9qgeo+8GFOhs88GvXzuTewUCBepmsQ/ft4MHNRwEjrBsxNMRLtJ3SXXznE0uXirsjLFfqcBtlT+Gzd46bkFKLnQY+5ayWjze3Nk0gn+ky8ZOLowUIzz1o0uQp2JrTyT/U9rINIW1vvF+VCpNEVRjKLpEMACoP02HUrxldTIlwQ8opYlTR86cTOCzaOPjXWY/R7YkFwiAN+quBicKrlikedIrxhc8+irjDRlTU5Piy/QLoMMgOx9PDlGV4mXinFTYxJZBt/xL5l8K13kMVZ6Re1zzZbnheUKaP3Nbd8qLS/zEEjoQOC8JJ1/q/q0qwfaLNE2U5gYmDK83XlOJddxQIDAQAB
+{
+    "idTransaction": "{{transactionID}}",
+    "mambuAccountNumber": "00274251623861",
+    "mainframeAccountNumber": "02571309281",
+    "accountType": "CTR",
+    "clientRUT": 18502788,
+    "clientDV": "0",
+    "amount": 1000000,
+    "shortDescription": "DEPOSITO PRUEBA",
+    "mediumDescription": "DEPOSITO PRUEBA",
+    "longDescription": "DEPOSITO PRUEBA {{time}} {{date}} {{transactionID}}",
+    "currencyCode": "CLP",
+    "accountingDate": "{{accountDate}}",
+    "correlative": "{{correlative}}",
+    "clientName": "Cliente prueba",
+    "conventionCode": "1"
+}
 
-2025090905305106149515
+
+{
+    "code": 500,
+    "message": "error getting deposit",
+    "businessMessage": "error getting deposit",
+    "typeResponse": "O",
+    "businessCode": "WDA.EDT.0001",
+    "payload": {
+        "returnCode": "900",
+        "returnMessage": "TRX NO VALIDA EN FUNCIONALIDAD",
+        "dateTransaction": "2026-10-14T15:57:40Z"
+    }
+}
