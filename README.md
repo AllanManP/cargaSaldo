@@ -13,54 +13,14 @@ Shop ID
 
 ------------------------------------------------------------
 
-Hola
-MID
-
-216620000000901058532
- 
-ClientID
-
-2026111995609575770273
-------------------------------
-RegionId 1
-
-216650000000899781536
- 
-RUT
-
-19.356.583-2
- 
-ShopId
-
-216660000000901059537
- 
-Bank Account Type
-
-Cuenta RUT
- 
-Bank Account NO
-
-19356583
- 
-----------------------------
- 
-RegionId 2
-
-216650000000899780537
- 
-RUT
-
-17.517.031-6
- 
-ShopId
-
-216660000000901060533
- 
-Bank Account Type
-
-Cuenta Corriente
- 
-Bank Account NO
-
-28200310936
- 
+{
+    "paymentId": "20261120111212800110166246800202453",
+    "redirectUrl": "https://h5-saas-test1-cirrus.bancoestado.cl/page/h5/index.html#/paymentGuidance?deeplink=bepaytest%3A%2F%2Fbancoestado%2Fdeeplink.htm%3Faction%3Dnative%26pageId%3Dpayment%26usecase%3DmobileWebsiteCashier%26shortUrl%3Dhttp%3A%2F%2Fmgs-test1.aliyun.paytech.com%2Fs%2Flskvztzv",
+    "merchantTransId": "34423242",
+    "appLinks": {},
+    "result": {
+        "resultStatus": "S",
+        "resultCode": "SUCCESS",
+        "resultMessage": "Success."
+    }
+}
