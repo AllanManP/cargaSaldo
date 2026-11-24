@@ -67,3 +67,11 @@ Bank Account NO
 
 
 http://vsk19-acambios/administracion.de.cambios/NuevoSitio/Sistec.asp
+
+
+Nombre: remitee-conc-dl.
+Grupo: superapp/lambda
+Rama principal: master
+Permisos: como Maintainer
+Variables de CI/CD: que copie las del proyecto copy-reports-dl-c2hr (Settings → CI/CD → Variables), en especial BECH_GITLAB_PYTHON_VERSION.
+ 
