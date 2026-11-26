@@ -19,6 +19,14 @@ Shop ID
  
 Shop External Business ID
 1002
+
+--------------------------
+
+Shop ID
+216660000000905538940
+Shop External Business ID
+1003
+
  
 -------------------------
 MID 216620000000901058532
