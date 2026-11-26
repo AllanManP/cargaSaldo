@@ -1,77 +1,52 @@
-Merchant ID
-216620000000896706654
-
-Client ID
-2026111778981822062445
-
+MID 216620000000557281940
+Client ID2025112748479865875951
+Region
 Region ID
-216650000000898476659
-
-Shop ID
-216660000000898478654
-
-
-------------------------------------------------------------
-
-Hola
-MID
-
-216620000000901058532
+216650000000904391943
  
-ClientID
-
-2026111995609575770273
-------------------------------
-RegionId 1
-
-216650000000899781536
+Region External Business ID
+1002
  
-RUT
-
-19.356.583-2
+Region Name
+Prueba PQR18 2 Shop CCT
  
-ShopId
-
-216660000000901059537
- 
-Bank Account Type
-
-Cuenta RUT
- 
-Bank Account NO
-
-19356583
- 
-----------------------------
- 
-RegionId 2
-
-216650000000899780537
- 
-RUT
-
+Region RUT
 17.517.031-6
  
-ShopId
-
+Shop Prueba PQR20 2 Shop CCT
+Shop ID
+216660000000905537945
+ 
+Shop External Business ID
+1002
+ 
+-------------------------
+MID 216620000000901058532
+Client ID2026111995609575770273
+ 
+Region
+Region ID
+216650000000899780537
+ 
+Region External Business ID
+1001
+ 
+Region Name
+Prueba PQR18 Shop CCT
+ 
+Region RUT
+17.517.031-6
+ 
+Shop ID
 216660000000901060533
  
-Bank Account Type
-
-Cuenta Corriente
+Shop External Business ID
+1001
  
-Bank Account NO
-
-28200310936
+Shop Name
+Prueba PQR20 Shop CCT
  
-
-
-http://vsk19-acambios/administracion.de.cambios/NuevoSitio/Sistec.asp
-
-
-Nombre: remitee-conc-dl.
-Grupo: superapp/lambda
-Rama principal: master
-Permisos: como Maintainer
-Variables de CI/CD: que copie las del proyecto copy-reports-dl-c2hr (Settings → CI/CD → Variables), en especial BECH_GITLAB_PYTHON_VERSION.
+ 
+ 
+ 
  
